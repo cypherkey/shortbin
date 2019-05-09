@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ShortBin</title>
+</head>
+<body>
+<span th:if="${warnmsg != null}" th:text="${warnmsg}" style="color:yellow; background-color:black"></span>
+<span th:if="${errormsg != null}" th:text="${errormsg}" style="color:red; background-color:black"></span>
+
+Link: <a th:href="${link}"><span th:text="${link}"></span></a><br />
+Expires: <span th:text="${expiration}"></span> UTC<br />
+Download: <a th:href="${download}"><span th:text="${download}"></span></a><br />
+<div>
+    <textarea name="thetext" id="thetext" rows="20" cols="60" disabled th:if="${istext == true}" th:inline="text">[[${thetext}]]</textarea>
+</div>
+
+</body>
+</html>

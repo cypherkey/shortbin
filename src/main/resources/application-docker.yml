@@ -1,0 +1,7 @@
+app:
+  storagedir: /opt/shortbin/storage
+  baseurl: http://localhost
+  cleanup: 0 1 * * * ?
+spring:
+  jpa:
+    database-platform: com.example.shortbin.sqlite.SQLiteDialect

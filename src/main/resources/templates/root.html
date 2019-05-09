@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ShortBin</title>
+</head>
+<body>
+    <span th:if="${warnmsg != null}" th:text="${warnmsg}" style="color:yellow; background-color:black"></span>
+    <span th:if="${errormsg != null}" th:text="${errormsg}" style="color:red; background-color:black"></span>
+    <form action="create" method="post" enctype="multipart/form-data">
+        <div>
+            <textarea name="thetext" id="thetext" rows="20" cols="60" th:inline="text">[[${thetext}]]</textarea>
+        </div>
+        <div>
+            <input name="file" id="file" type="file"><br />
+            Expiration: <select name="expiration" id="expiration">
+                <option value="1">1 day</option>
+                <option value="2">2 day</option>
+                <option value="3">3 day</option>
+            </select><br />
+            <input name="submit" id="submit" type="submit" value="Upload/Save">
+        </div>
+    </form>
+</body>
+</html>
