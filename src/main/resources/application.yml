@@ -1,5 +1,6 @@
 app:
   storagedir: storage
+  dbpath: shortbin.db
   baseurl: http://localhost:8080
   cleanup: 0 1 * * * ?
 spring:

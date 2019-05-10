@@ -1,6 +1,5 @@
 package com.example.shortbin;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
@@ -9,6 +8,15 @@ import org.springframework.stereotype.Component;
 public class AppConfiguration {
     private String storageDir;
     private String baseUrl;
+    private String dbPath;
+
+    public String getDbPath() {
+        return dbPath;
+    }
+
+    public void setDbPath(String dbPath) {
+        this.dbPath = dbPath;
+    }
 
     public String getStorageDir() {
         return storageDir;
@@ -25,4 +33,6 @@ public class AppConfiguration {
     public void setBaseUrl(String baseUrl) {
         this.baseUrl = baseUrl;
     }
+
+
 }
