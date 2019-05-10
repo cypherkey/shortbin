@@ -12,10 +12,19 @@ import java.util.Date;
 @Table(name="fileitem")
 public class FileItem {
     @Id
+    private String id;
     private String filename;
     private String type;
     private Boolean istext;
     private String expiration;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public String getFilename() {
         return filename;

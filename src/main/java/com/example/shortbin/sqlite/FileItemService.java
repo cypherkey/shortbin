@@ -10,20 +10,20 @@ public class FileItemService {
     @Autowired
     private FileItemDao fileItemDao;
 
-    public void add(FileItem fileItem) {
-        fileItemDao.save(fileItem);
+    public void add(FileItem id) {
+        fileItemDao.save(id);
     }
 
-    public FileItem get(String fileName) {
-        return fileItemDao.findFileItemByFilename(fileName);
+    public FileItem get(String id) {
+        return fileItemDao.findFileItemById(id);
     }
 
-    public void delete(String fileName) {
-        fileItemDao.deleteById(fileName);
+    public void delete(String id) {
+        fileItemDao.deleteById(id);
     }
 
     public void delete(FileItem fileItem) {
-        delete(fileItem.getFilename());
+        delete(fileItem.getId());
     }
 
     public List<FileItem> getExpired() { return fileItemDao.findExpired(); }

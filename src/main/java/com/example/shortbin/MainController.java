@@ -56,22 +56,25 @@ public class MainController {
         exp.add(Calendar.DAY_OF_MONTH, expirationDays);
         fileItem.setExpiration(exp);
 
-        String fileName = "ERROR";
+        String id = "ERROR";
 
         try {
             if (text != null && ! text.isEmpty()) {
-                fileName = fileStorageService.saveText(text);
+                id = fileStorageService.saveText(text);
                 //model.addAttribute("infomsg", "Saved!");
-                //model.addAttribute("link", fileName);
-                fileItem.setFileName(fileName);
+                //model.addAttribute("link", id);
+                fileItem.setId(id);
+                fileItem.setFileName(String.format("%s.txt",id));
                 fileItem.setType(MediaType.TEXT_PLAIN_VALUE);
                 fileItem.setIstext(true);
                 fileItemService.add(fileItem);
             } else if (! file.isEmpty()) {
-                fileName = fileStorageService.saveFile(file);
+                id = fileStorageService.saveFile(file);
                 //model.addAttribute("infomsg", "Saved!");
-                //model.addAttribute("link", fileName);
-                fileItem.setFileName(fileName);
+                //model.addAttribute("link", id);
+                fileItem.setId(id);
+                // Save the filename for downloading purposes
+                fileItem.setFileName(file.getOriginalFilename());
                 fileItem.setType(MediaType.APPLICATION_OCTET_STREAM_VALUE);
                 fileItem.setIstext(false);
                 fileItemService.add(fileItem);
@@ -85,15 +88,15 @@ public class MainController {
             model.addAttribute("errormsg", "ERROR!");
             return "root";
         }
-        return String.format("redirect:/view/%s", fileName);
+        return String.format("redirect:/view/%s", id);
     }
 
-    @GetMapping("/view/{filename}")
+    @GetMapping("/view/{id}")
     public String view(
-            @PathVariable("filename") String fileName,
+            @PathVariable("id") String id,
             Model model) {
 
-        FileItem fileItem = fileItemService.get(fileName);
+        FileItem fileItem = fileItemService.get(id);
         if (fileItem == null) {
             model.addAttribute("warnmsg", "Invalid entry");
             return "root";
@@ -101,15 +104,15 @@ public class MainController {
 
         byte[] data;
         try {
-            data = fileStorageService.getFile(fileName);
+            data = fileStorageService.getFile(id);
         } catch (FileStorageException ex) {
             logger.error(String.format("Error retreiving file"), ex);
             model.addAttribute("errormsg", "ERROR!");
             return "view";
         }
 
-        model.addAttribute("link", String.format("%s%s%s", config.getBaseUrl(), "/view/", fileItem.getFilename()));
-        model.addAttribute("download", String.format("%s%s%s%s", config.getBaseUrl(), "/view/", fileItem.getFilename(), "/download"));
+        model.addAttribute("link", String.format("%s%s%s", config.getBaseUrl(), "/view/", fileItem.getId()));
+        model.addAttribute("download", String.format("%s%s%s%s", config.getBaseUrl(), "/view/", fileItem.getId(), "/download"));
         model.addAttribute("expiration", fileItem.getExpiration());
 
         if (fileItem.getIstext()) {
@@ -122,14 +125,17 @@ public class MainController {
         return "view";
     }
 
-    @GetMapping("/view/{filename}/download")
+    @GetMapping("/view/{id}/download")
     public void download(
-            @PathVariable("filename") String fileName,
+            @PathVariable("id") String id,
             HttpServletResponse response,
             Model model) {
 
+        FileItem fileItem = fileItemService.get(id);
+        response.setContentType(fileItem.getType());
+        response.setHeader("Content-Disposition", String.format("attachment; filename=\"%s\"", fileItem.getFilename()));
         try {
-            fileStorageService.getFile(fileName, response.getOutputStream());
+            fileStorageService.getFile(id, response.getOutputStream());
         } catch (IOException ex) {
             logger.error(String.format("Error retreiving file"), ex);
             model.addAttribute("errormsg", "ERROR!");
