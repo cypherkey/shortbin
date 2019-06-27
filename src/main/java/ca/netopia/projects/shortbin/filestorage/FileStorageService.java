@@ -101,19 +101,20 @@ public class FileStorageService {
     }
 
     public void delete(FileItem item) throws FileStorageException {
-        delete(item.getFilename());
+        // files are stored on the filesystem based on their ID
+        delete(item.getId());
     }
 
-    public void delete(String fileName) throws FileStorageException {
-        Path filePath = storagePath.resolve(fileName);
+    public void delete(String id) throws FileStorageException {
+        Path filePath = storagePath.resolve(id);
 
         try {
             if (Files.exists(filePath)) {
                 Files.delete(filePath);
             }
         } catch (IOException ex) {
-            logger.error(String.format("Unable to delete file %s", fileName), ex);
-            throw new FileStorageException(String.format("Unable to delete file %s", fileName), ex);
+            logger.error(String.format("Unable to delete file %s", id), ex);
+            throw new FileStorageException(String.format("Unable to delete file %s", id), ex);
         }
     }
 }
