@@ -1,4 +1,4 @@
-package com.example.shortbin;
+package ca.netopia.projects.shortbin;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

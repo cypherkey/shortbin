@@ -1,4 +1,4 @@
-package com.example.shortbin;
+package ca.netopia.projects.shortbin;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

@@ -1,4 +1,4 @@
-package com.example.shortbin;
+package ca.netopia.projects.shortbin;
 
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
