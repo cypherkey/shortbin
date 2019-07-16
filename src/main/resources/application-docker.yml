@@ -5,4 +5,4 @@ app:
   cleanup: 0 1 * * * ?
 spring:
   jpa:
-    database-platform: com.example.shortbin.sqlite.SQLiteDialect
+    database-platform: SQLiteDialect

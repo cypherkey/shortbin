@@ -1,4 +1,4 @@
-package com.example.shortbin.sqlite;
+package ca.netopia.projects.shortbin.sqlite;
 
 import java.sql.Types;
 
