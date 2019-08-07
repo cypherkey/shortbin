@@ -11,4 +11,4 @@ if [ ! -e /opt/shortbin/config/shortbin.db ]; then
 	cp /opt/shortbin/shortbin.db /opt/shortbin/config/shortbin.db
 fi
 
-java -jar /opt/shortbin/shortbin-1.0.jar --spring.config.location=/opt/shortbin/config/application.yml
+java -jar /opt/shortbin/shortbin.jar --spring.config.location=/opt/shortbin/config/application.yml
