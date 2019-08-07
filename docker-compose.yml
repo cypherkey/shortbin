@@ -1,0 +1,23 @@
+version: "3"
+
+networks:
+  web:
+    external: true
+  internal:
+    external: false
+
+services:
+  webapp:
+    image: shortbin:latest
+    user: "1003:1003"
+    labels:
+      - traefik.backend=shortbin
+      - traefik.frontend.rule=Host:shortbin.example.com
+      - traefik.docker.network=web
+      - traefik.port=8080
+    networks:
+      - internal
+      - web
+    volumes:
+      - "/opt/shortbin/storage:/opt/shortbin/storage"
+      - "/opt/shortbin/config:/opt/shortbin/config"
