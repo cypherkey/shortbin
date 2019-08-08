@@ -107,10 +107,12 @@ public class FileStorageService {
 
     public void delete(String id) throws FileStorageException {
         Path filePath = storagePath.resolve(id);
-
+        logger.debug("Deleting file with path %s", filePath);
         try {
             if (Files.exists(filePath)) {
                 Files.delete(filePath);
+            } else {
+                logger.warn(String.format("File %s does not exist", filePath));
             }
         } catch (IOException ex) {
             logger.error(String.format("Unable to delete file %s", id), ex);

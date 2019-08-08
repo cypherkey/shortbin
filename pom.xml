@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>ca.netopia.projects.shortbin</groupId>
 	<artifactId>shortbin</artifactId>
-	<version>1.1</version>
+	<version>1.2</version>
 	<packaging>jar</packaging>
 	<name>shortbin</name>
 	<description>Pastebin clone with short url support</description>
