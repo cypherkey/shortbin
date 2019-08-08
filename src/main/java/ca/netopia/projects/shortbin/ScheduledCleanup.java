@@ -35,11 +35,11 @@ public class ScheduledCleanup {
         logger.info("Beginning cleanup");
         for(FileItem item : fileItemService.getExpired()) {
             try {
-                logger.info(String.format("Deleting %s with expiration %s", item.getFilename(), item.getExpiration()));
+                logger.info(String.format("Deleting %s with expiration %s", item.getId(), item.getExpiration()));
                 fileStorageService.delete(item);
                 fileItemService.delete(item);
             } catch (FileStorageException ex) {
-                logger.error(String.format("Unable to delete item %s", item.getFilename()), ex);
+                logger.error(String.format("Unable to delete item %s", item.getId()), ex);
             }
         }
     }
