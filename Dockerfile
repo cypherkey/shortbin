@@ -1,4 +1,5 @@
-FROM maven:3-jdk-8
+#FROM maven:3-jdk-8
+FROM openjdk:8-jdk
 
 EXPOSE 8080
 VOLUME /opt/shortbin/storage /opt/shortbin/config
