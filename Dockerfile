@@ -4,7 +4,7 @@ EXPOSE 8080
 VOLUME /opt/shortbin/storage /opt/shortbin/config
 WORKDIR /opt/shortbin/
 RUN mkdir -p /opt/shortbin/storage /opt/shortbin/config
-COPY target/shortbin-1.1.jar /opt/shortbin/shortbin.jar
+COPY target/shortbin-1.2.jar /opt/shortbin/shortbin.jar
 COPY entrypoint.sh /opt/shortbin/
 COPY src/main/resources/application-docker.yml /opt/shortbin/application.yml
 COPY shortbin.db /opt/shortbin/shortbin.db
