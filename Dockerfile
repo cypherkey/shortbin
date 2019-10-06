@@ -1,17 +1,17 @@
-#FROM maven:3-jdk-8
-FROM openjdk:8-jdk
+FROM openjdk:11-jre
 
-EXPOSE 8080
-VOLUME /opt/shortbin/storage /opt/shortbin/config
 WORKDIR /opt/shortbin/
 RUN mkdir -p /opt/shortbin/storage /opt/shortbin/config
-COPY target/shortbin-1.2.jar /opt/shortbin/shortbin.jar
+COPY target/shortbin-3.jar /opt/shortbin/shortbin.jar
 COPY entrypoint.sh /opt/shortbin/
 COPY src/main/resources/application-docker.yml /opt/shortbin/application.yml
 COPY shortbin.db /opt/shortbin/shortbin.db
-RUN adduser shortbin --disabled-password --gecos "shortbin Service Account"
-RUN chmod 777 /opt/shortbin/entrypoint.sh
-RUN chown -R 1000:1000 /opt/shortbin
+RUN adduser shortbin --disabled-password --gecos "shortbin Service Account" && \
+    chmod 777 /opt/shortbin/entrypoint.sh && \
+    chown -R 1000:1000 /opt/shortbin
 #RUN su -c "/usr/share/maven/bin/mvn -Dmaven.test.skip=true install" shortbin
 #RUN su -c "/usr/share/maven/bin/mvn dependency:resolve-plugins" shortbin
+EXPOSE 8080
+# Ensure this is after the directory is created
+VOLUME /opt/shortbin/storage /opt/shortbin/config
 ENTRYPOINT ["/bin/bash", "/opt/shortbin/entrypoint.sh"]
