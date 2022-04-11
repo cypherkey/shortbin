@@ -40,8 +40,8 @@ public class FileStorageService {
 
         storagePath = Paths.get(path);
         if (! Files.isDirectory(storagePath)) {
-            logger.error("Invalid Storage Path");
-            throw new RuntimeException("Invalid Storage Path");
+            logger.error(String.format("Invalid Storage Path %s", storagePath));
+            throw new RuntimeException(String.format("Invalid Storage Path %s", storagePath));
         }
     }
 
