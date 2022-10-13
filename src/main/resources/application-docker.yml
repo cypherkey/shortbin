@@ -6,3 +6,7 @@ app:
 spring:
   jpa:
     database-platform: ca.netopia.projects.shortbin.sqlite.SQLiteDialect
+server:
+  tomcat:
+    remote_ip_header: x-forwarded-for
+    protocol_header: x-forwarded-proto
