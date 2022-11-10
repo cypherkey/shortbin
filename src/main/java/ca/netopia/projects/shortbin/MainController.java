@@ -147,4 +147,26 @@ public class MainController {
         }
         //return "view";
     }
+
+    @GetMapping("/delete/{id}")
+    public String delete(
+            @PathVariable("id") String id,
+            HttpServletResponse response,
+            Model model) {
+
+        FileItem fileItem = fileItemService.get(id);
+        if (fileItem == null) {
+            model.addAttribute("warnmsg", "Invalid entry");
+            return "root";
+        }
+
+        try {
+            fileStorageService.delete(id);
+        } catch (FileStorageException ex) {
+            logger.error(String.format("Error retreiving file"), ex);
+            model.addAttribute("errormsg", "ERROR!");
+        }
+
+        return "root";
+    }
 }

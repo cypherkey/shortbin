@@ -2,7 +2,7 @@ FROM openjdk:11-jre
 
 WORKDIR /opt/shortbin/
 RUN mkdir -p /opt/shortbin/storage /opt/shortbin/config
-COPY target/shortbin-5.jar /opt/shortbin/shortbin.jar
+COPY target/shortbin-6.jar /opt/shortbin/shortbin.jar
 COPY entrypoint.sh /opt/shortbin/
 COPY src/main/resources/application-docker.yml /opt/shortbin/application.yml
 COPY shortbin.db /opt/shortbin/shortbin.db
