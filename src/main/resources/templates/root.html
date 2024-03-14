@@ -7,7 +7,7 @@
 <body>
     <span th:if="${warnmsg != null}" th:text="${warnmsg}" style="color:yellow; background-color:black"></span>
     <span th:if="${errormsg != null}" th:text="${errormsg}" style="color:red; background-color:black"></span>
-    <form action="create" method="post" enctype="multipart/form-data">
+    <form action="/item/create" method="post" enctype="multipart/form-data">
         <div>
             <textarea name="thetext" id="thetext" rows="20" cols="60" th:inline="text">[[${thetext}]]</textarea>
         </div>

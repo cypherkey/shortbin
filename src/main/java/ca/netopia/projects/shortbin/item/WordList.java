@@ -1,4 +1,4 @@
-package ca.netopia.projects.shortbin.filestorage;
+package ca.netopia.projects.shortbin.item;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,14 +10,15 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.Random;
 
-@Component
 public class WordList {
-    private final String WORDLIST_PATH = "wordlist.txt";
-    private ArrayList<String> words = new ArrayList<String>();
+    private final static String WORDLIST_PATH = "wordlist.txt";
+    private static ArrayList<String> words = new ArrayList<String>();
     private static final Logger logger = LoggerFactory.getLogger(WordList.class);
 
-    public WordList() {
+   private static void init() {
         try {
+            words.clear();
+
             logger.info(String.format("Loading wordlist from %s", WORDLIST_PATH));
             Resource resource = new ClassPathResource(WORDLIST_PATH);
             InputStream is = resource.getInputStream();
@@ -38,8 +39,15 @@ public class WordList {
         }
     }
 
-    public String getWord() {
-        Random r = new Random();
-        return words.get(r.nextInt(words.size()));
+    private static Boolean isInitialized() {
+       return ! words.isEmpty();
+    }
+
+    public static String getWord() {
+       if (! isInitialized()) {
+           init();
+       }
+       Random r = new Random();
+       return words.get(r.nextInt(words.size()));
     }
 }

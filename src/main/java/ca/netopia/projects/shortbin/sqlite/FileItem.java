@@ -1,12 +1,10 @@
 package ca.netopia.projects.shortbin.sqlite;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+
+import java.sql.Timestamp;
 
 @Entity
 @Table(name="fileitem")
@@ -16,7 +14,7 @@ public class FileItem {
     private String filename;
     private String type;
     private Boolean istext;
-    private String expiration;
+    private Timestamp expiration;
 
     public String getId() {
         return id;
@@ -42,18 +40,12 @@ public class FileItem {
         this.type = type;
     }
 
-    public String getExpiration() {
+    public Timestamp getExpiration() {
         return expiration;
     }
 
-    public void setExpiration(String expiration) {
+    public void setExpiration(Timestamp expiration) {
         this.expiration = expiration;
-    }
-
-    public void setExpiration(Calendar cal) {
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-        dateFormat.setTimeZone(cal.getTimeZone());
-        expiration = dateFormat.format(cal.getTime());
     }
 
     public Boolean getIstext() {

@@ -5,4 +5,4 @@ app:
   cleanup: 0 1 * * * ?
 spring:
   jpa:
-    database-platform: ca.netopia.projects.shortbin.sqlite.SQLiteDialect
+    database-platform: org.hibernate.community.dialect.SQLiteDialect

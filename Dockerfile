@@ -1,4 +1,4 @@
-FROM openjdk:11-jre
+FROM eclipse-temurin:21-jre-alpine
 
 WORKDIR /opt/shortbin/
 RUN mkdir -p /opt/shortbin/storage /opt/shortbin/config

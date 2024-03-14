@@ -10,6 +10,6 @@ import java.util.List;
 public interface FileItemDao extends CrudRepository<FileItem, String> {
     FileItem findFileItemById(String filename);
 
-    @Query("select f from FileItem f where expiration < current_timestamp")
-    List<FileItem> findExpired();
+    @Query("select id from FileItem where expiration < current_timestamp")
+    List<String> findExpired();
 }

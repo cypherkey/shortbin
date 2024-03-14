@@ -1,5 +1,6 @@
 package ca.netopia.projects.shortbin.sqlite;
 
+import ca.netopia.projects.shortbin.item.Item;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -26,5 +27,5 @@ public class FileItemService {
         delete(fileItem.getId());
     }
 
-    public List<FileItem> getExpired() { return fileItemDao.findExpired(); }
+    public List<String> getExpired() { return fileItemDao.findExpired(); }
 }

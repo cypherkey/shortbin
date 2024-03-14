@@ -1,6 +1,7 @@
 HELP.md
 /target/
 /.mvn/
+/storage/
 
 ### STS ###
 .apt_generated

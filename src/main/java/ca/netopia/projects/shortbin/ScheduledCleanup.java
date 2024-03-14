@@ -1,9 +1,9 @@
 package ca.netopia.projects.shortbin;
 
-import ca.netopia.projects.shortbin.filestorage.FileStorageException;
-import ca.netopia.projects.shortbin.filestorage.FileStorageService;
-import ca.netopia.projects.shortbin.sqlite.FileItem;
-import ca.netopia.projects.shortbin.sqlite.FileItemService;
+import ca.netopia.projects.shortbin.item.Item;
+import ca.netopia.projects.shortbin.item.exception.ItemErrorException;
+import ca.netopia.projects.shortbin.item.exception.ItemNotFoundException;
+import ca.netopia.projects.shortbin.item.ItemService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,10 +17,7 @@ public class ScheduledCleanup {
     private static final Logger logger = LoggerFactory.getLogger(ScheduledCleanup.class);
 
     @Autowired
-    private FileStorageService fileStorageService;
-
-    @Autowired
-    private FileItemService fileItemService;
+    private ItemService itemService;
 
     @EventListener(ApplicationReadyEvent.class)
     public void startUp() {
@@ -33,13 +30,15 @@ public class ScheduledCleanup {
 
     private void cleanUp() {
         logger.info("Beginning cleanup");
-        for(FileItem item : fileItemService.getExpired()) {
+        for(String id : itemService.getExpired()) {
             try {
+                Item item = itemService.get(id);
                 logger.info(String.format("Deleting %s with expiration %s", item.getId(), item.getExpiration()));
-                fileStorageService.delete(item);
-                fileItemService.delete(item);
-            } catch (FileStorageException ex) {
-                logger.error(String.format("Unable to delete item %s", item.getId()), ex);
+                itemService.delete(id);
+            } catch (ItemErrorException ex) {
+                logger.error(String.format("Unable to delete item %s", id), ex);
+            } catch (ItemNotFoundException ex) {
+                logger.error(String.format("Item %s not found", id), ex);
             }
         }
     }
