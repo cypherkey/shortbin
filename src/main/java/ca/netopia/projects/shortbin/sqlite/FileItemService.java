@@ -1,6 +1,5 @@
 package ca.netopia.projects.shortbin.sqlite;
 
-import ca.netopia.projects.shortbin.item.Item;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
