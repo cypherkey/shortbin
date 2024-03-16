@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.List;
 
 @Component
@@ -55,6 +56,15 @@ public class ItemService {
         } catch (FileStorageException ex) {
             throw new ItemErrorException(String.format("Unable to retrieve file for item %s", id), ex);
         }
+    }
+
+    public List<Item> getAll() {
+        // Only get the DB records
+        List<Item> items = new ArrayList<>();
+        fileItemService.getAll().forEach( x -> {
+            items.add(new Item(x));
+        });
+        return items;
     }
 
     public void delete(String id) throws ItemErrorException {

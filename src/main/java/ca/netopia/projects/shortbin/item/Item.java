@@ -1,7 +1,7 @@
 package ca.netopia.projects.shortbin.item;
 
+import ca.netopia.projects.shortbin.item.exception.ItemErrorException;
 import ca.netopia.projects.shortbin.sqlite.FileItem;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.sql.Timestamp;
 import java.text.DateFormat;
@@ -15,41 +15,55 @@ public class Item {
     private String id;
     private String filename;
     private String type;
-    private Boolean istext;
-    private Calendar expiration;
+    private Boolean istext = true;
+    private Calendar expiration = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
     private byte[] data;
 
     private DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
 
     public Item() {
-        this.id = String.format("%s-%s", WordList.getWord(), WordList.getWord());
-        this.filename = String.format("%s.txt", id);
+        generateId();
     }
 
     public Item(String id) {
-        this.id = id;
-        this.filename = String.format("%s.txt", id);
+        setId(id);
     }
 
-    public Item(FileItem dbItem, byte[] data) {
+    public Item(FileItem dbItem) {
         this.id = dbItem.getId();
-        setFileName(dbItem.getFilename());
+        setFilename(dbItem.getFilename());
         setExpiration(dbItem.getExpiration());
         setType(dbItem.getType());
         setIstext(dbItem.getIstext());
-        setData(data);
     }
 
+    public Item(FileItem dbItem, byte[] data) {
+        this(dbItem);
+        setData(data);
+    }
+    private void setId(String id) {
+        this.id = id;
+        if (this.istext == true) {
+            this.filename = String.format("%s.txt", id);
+        }
+    }
     public String getId() {
         return id;
+    }
+
+    public String generateId() {
+        setId(String.format("%s-%s", WordList.getWord(), WordList.getWord()));
+        return getId();
     }
 
     public String getFilename() {
         return filename;
     }
 
-    public void setFileName(String fileName) {
-        this.filename = fileName;
+    public void setFilename(String filename) {
+        if (this.istext) {
+            this.filename = filename;
+        }
     }
 
     public String getType() {
@@ -65,7 +79,6 @@ public class Item {
     }
 
     public String getExpirationAsString() {
-        this.dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
         return this.dateFormat.format(expiration.getTime());
     }
 
@@ -73,6 +86,15 @@ public class Item {
         return new Timestamp(this.expiration.getTime().getTime());
     }
 
+    public void setExpiration(String expiration) throws ItemErrorException {
+        try {
+            Date date = dateFormat.parse(expiration);
+            this.expiration = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+            this.expiration.setTime(date);
+        } catch (ParseException ex) {
+            throw new ItemErrorException(String.format("Unable to parse [%s]", expiration), ex);
+        }
+    }
     public void setExpiration(Calendar expiration) {
         this.expiration = expiration;
     }
@@ -82,6 +104,19 @@ public class Item {
         this.expiration.setTimeInMillis(timestamp.getTime());
 
     }
+
+    public void validateExpiration() {
+        Calendar min = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+        Calendar max = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+        max.add(Calendar.DAY_OF_MONTH, 30);
+
+        if (this.expiration.compareTo(min) < 0) {
+            this.expiration = min;
+        } else if (this.expiration.compareTo(max) > 0) {
+            this.expiration = max;
+        }
+    }
+
     public Boolean getIstext() {
         return istext;
     }

@@ -55,7 +55,6 @@ public class HtmlFormController {
         Calendar exp = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
         exp.add(Calendar.DAY_OF_MONTH, expirationDays);
         item.setExpiration(exp);
-
         try {
             if (text != null && ! text.isEmpty()) {
                 //TODO - should be done by ItemService
@@ -63,7 +62,7 @@ public class HtmlFormController {
                 item.setIstext(true);
                 item.setData(text);
             } else if (! file.isEmpty()) {
-                item.setFileName(file.getOriginalFilename());
+                item.setFilename(file.getOriginalFilename());
                 item.setType(MediaType.APPLICATION_OCTET_STREAM_VALUE);
                 item.setIstext(false);
                 item.setData(file.getBytes());

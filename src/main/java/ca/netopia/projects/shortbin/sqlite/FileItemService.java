@@ -4,6 +4,7 @@ import ca.netopia.projects.shortbin.item.Item;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Component
@@ -17,6 +18,12 @@ public class FileItemService {
 
     public FileItem get(String id) {
         return fileItemDao.findFileItemById(id);
+    }
+
+    public List<FileItem> getAll() {
+        List<FileItem> items = new ArrayList<FileItem>();
+        fileItemDao.findAll().forEach(items::add);
+        return items;
     }
 
     public void delete(String id) {

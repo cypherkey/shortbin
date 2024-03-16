@@ -37,6 +37,7 @@ public class FileStorageService {
             logger.error(String.format("Invalid Storage Path [%s]. Current working directory [%s]", storagePath, System.getProperty("user.dir")));
             throw new RuntimeException(String.format("Invalid Storage Path [%s]. Current working directory [%s]", storagePath, System.getProperty("user.dir")));
         }
+        logger.info(String.format("Storage path is [%s]. Current working directory [%s]", storagePath.toString(), System.getProperty("user.dir")));
     }
 
     public void save(String id, byte[] data) throws FileStorageException {

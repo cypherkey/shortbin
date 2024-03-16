@@ -33,7 +33,7 @@ public class ScheduledCleanup {
         for(String id : itemService.getExpired()) {
             try {
                 Item item = itemService.get(id);
-                logger.info(String.format("Deleting %s with expiration %s", item.getId(), item.getExpiration()));
+                logger.info(String.format("Deleting %s with expiration %s", item.getId(), item.getExpirationAsString()));
                 itemService.delete(id);
             } catch (ItemErrorException ex) {
                 logger.error(String.format("Unable to delete item %s", id), ex);
